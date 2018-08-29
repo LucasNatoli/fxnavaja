@@ -1,9 +1,9 @@
 const env = process.env;
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(
-    'razor_v2',
-    'root',
-    'Kalama2018',
+    'razor',
+    'webuser',
+    'Termo1333Huawei',
     {
         host: 'localhost',
         port: 3306,
