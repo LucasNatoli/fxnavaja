@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session(
   {
-    store: new sqLiteStore({dir: '.sqlite3', db: 'sess.db'}),
+    store: new sqLiteStore({dir: 'sqlite3', db: 'sess.db'}),
     secret: 'b?~@Q8*h]m_.C#$5',
     resave: false,
     saveUninitialized: true,

@@ -1,3 +1,9 @@
+# Secrets
+secret.txt
+
+# Sqlite3 Sessions db
+sqlite3/sess.db
+
 # Logs
 logs
 *.log
