@@ -37,12 +37,12 @@ module.exports = {
   deploy : {
     production : {
       key  : '/home/lucas/.ssh/id_rsa.pub',
-      user : 'root',
+      user : 'razor',
       host : 'fxnavaja.com',
       ref  : 'origin/master',
       repo : 'https://github.com/LucasNatoli/fxnavaja.git',
-      path : '/root/fxnavaja',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
+      path : '/razor/fxnavaja',
+      'post-deploy' : 'npm install && pm2 start ecosystem.config.js --env production'
     }
   }
 };
