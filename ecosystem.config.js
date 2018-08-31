@@ -41,8 +41,8 @@ module.exports = {
       host : 'fxnavaja.com',
       ref  : 'origin/master',
       repo : 'https://github.com/LucasNatoli/fxnavaja.git',
-      path : '/var/www/fxnavaja',
-      'post-deploy' : 'npm install && pm2 start ecosystem.config.js --env production'
+      path : '/home/razor/node',
+      'post-deploy' : 'npm install; pm2 start ecosystem.config.js --env production'
     }
   }
 };
