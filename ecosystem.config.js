@@ -40,7 +40,7 @@ module.exports = {
       host : 'fxnavaja.com',
       ref  : 'origin/master',
       repo : 'LucasNatoli@github.com:fxnavaja.git',
-      path : '/var/www/production',
+      path : '/root/fxnavaja',
       'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
     }
   }
