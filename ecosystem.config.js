@@ -36,6 +36,7 @@ module.exports = {
    */
   deploy : {
     production : {
+      key  : '/home/lucas/.ssh/id_rsa.pub',
       user : 'root',
       host : 'fxnavaja.com',
       ref  : 'origin/master',
