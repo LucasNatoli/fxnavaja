@@ -1,3 +1,4 @@
+const PORT = process.env.PORT
 const express = require('express')
 const app = express()
 const router = require('./router')
@@ -22,9 +23,20 @@ app.use(session(
 
 router(app, db)
 
+db.sequelize
+.authenticate()
+.then(() => {
+  console.log("db authentication ok")
+  app.listen(PORT, () => console.log('r4Z0R listening on port ', PORT))
+})
+.catch(err => {
+  console.error('Unable to connect to the database:', err);
+});
+
+/* 
 db.sequelize.sync(
   {force: false}
 ).then(() => {
   console.log("db syn ok")
-  app.listen(3000, () => console.log('Server running on port 3000'))
-})
+  app.listen(PORT, () => console.log('r4Z0R listening on port ', PORT))
+}) */

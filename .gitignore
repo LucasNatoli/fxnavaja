@@ -1,5 +1,6 @@
 # Secrets
 secret.txt
+ecosystem.config.js
 
 # Sqlite3 Sessions db
 sqlite3/sess.db
