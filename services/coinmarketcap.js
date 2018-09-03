@@ -3,8 +3,11 @@ const axios = require("axios");
 const tickerUrl = "https://api.coinmarketcap.com/v1/ticker/?limit=10";
 const db = require('../db')
 
+function CoinmarketcapTicker(db) {
+  this.db = db
+}
 
-function getTicker(){
+CoinmarketcapTicker.prototype.getTicker = function (){
   return new Promise(function(resolve, reject) {
     axios.get(tickerUrl).then(
         function(response){
@@ -18,9 +21,9 @@ function getTicker(){
   });  
 }
 
-function updateTicker(db){
-
-  getTicker().then(
+CoinmarketcapTicker.prototype.updateTicker = function (){
+  var db = this.db
+  this.getTicker().then(
     data=> {
       if (data.length>0) {
         db.coinmarketcapTick.destroy({
@@ -28,7 +31,6 @@ function updateTicker(db){
           truncate: true
         })
         .then(()=>{
-
           for(var i=0; i<data.length; i++){
             var t = data[i]
             db.coinmarketcapTick
@@ -55,9 +57,9 @@ function updateTicker(db){
                 percent_change_7d: t.percent_change_7d
               }
             })
-            .spread((tick, created)=> {
+            /* .spread((tick, created)=> {
               if (created) console.log(tick.get({plain:true}))
-            })
+            }) */
           }
         })
       }
@@ -68,12 +70,4 @@ function updateTicker(db){
   )  
 }
 
-
-db.sequelize.sync(
-  /* {force: true} */
-).then(() => {
-  console.log('db sync ok')
-
-
-  updateTicker(db)
-})
+module.exports = CoinmarketcapTicker
