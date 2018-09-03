@@ -3,7 +3,7 @@ const db = require('./db')
 const coinmarketcapTiker = require('./services/coinmarketcap')
 
 
-new CronJob('0 */1 * * * *', function() {
+new CronJob('0 */5 * * * *', function() {
   console.log('coinmacrketcap ticker update');
   var ticker = new coinmarketcapTiker(db)
   ticker.updateTicker()
