@@ -1,6 +1,8 @@
 # Secrets
 secret.txt
 doodle.txt
+candles/*.db
+candles/*.db-journal
 #ecosystem.config.js
 
 # Sqlite3 Sessions db
