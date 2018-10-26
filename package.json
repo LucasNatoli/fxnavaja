@@ -12,12 +12,15 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "bollinger-bands": "^3.0.1",
     "connect-sqlite3": "^0.9.11",
     "credential": "^2.0.0",
     "cron": "^1.4.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "moving-averages": "^4.0.5",
     "mysql2": "^1.6.1",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "sqlite3": "^4.0.3"
   }
 }
