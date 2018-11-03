@@ -1,7 +1,10 @@
+'use strict' 
+
 const CronJob = require('cron').CronJob;
 const db = require('./db')
 const coinmarketcapTiker = require('./services/coinmarketcap')
-const candlescanner = require('./candlescanner')
+const candlesScanner = require('./candles_scanner')
+const candlesAnalyzer = require('./candles_analyzer')
 const scanProfiles = [
 	{
 		exchange: 'bittrex',
@@ -52,12 +55,21 @@ const scanProfiles = [
 	}
 ]
 
+
+var bollingerSample = 'BB_C_20_2_lower'
+var mfiSample = 'MFI'
+var emaSample = 'EMA_C_9'
+
 new CronJob('0 */5 * * * *', function() {
-  console.log('coinmacrketcap ticker update');
   var ticker = new coinmarketcapTiker(db)
   ticker.updateTicker()
-}, null, true, 'America/Argentina/Buenos_Aires');
+}, null, true, 'America/Argentina/Buenos_Aires')
 
-new CronJob('*/10 * * * * *', function() {
-	candlescanner.scan(scanProfiles)
-}, null, true, 'America/Argentina/Buenos_Aires');
+new CronJob('*/60 * * * * *', function() {
+	scanProfiles.forEach(
+		(profile) => {
+			new candlesScanner(profile).scan()
+			//new candlesAnalyzer(profile).analyze(bollingerSample)
+		}
+	)	
+}, null, true, 'America/Argentina/Buenos_Aires')

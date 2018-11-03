@@ -9,7 +9,7 @@ module.exports = {
       name      : 'web-server',
       script    : 'webserver.js',      
       watch     : true,
-      ignore_watch : ["node_modules", "docs", "sqlite3", ".git"],      
+      ignore_watch : ["node_modules", "docs", "sqlite3", ".git", "candles"],      
       env: {
         NODE_ENV: 'development',
         PORT: 3000,
@@ -33,7 +33,7 @@ module.exports = {
       name      : 'watcher',
       script    : 'watcher.js',
       watch     : true,
-      ignore_watch : ["node_modules", "docs", "sqlite3", ".git"],      
+      ignore_watch : ["node_modules", "docs", "sqlite3", ".git", "candles"],      
       env: {
         NODE_ENV: 'development',
         PORT: 3000,

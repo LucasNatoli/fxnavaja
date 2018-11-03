@@ -55,14 +55,13 @@ Bittrex.prototype.getCandles = (coin, asset, interval, limit) => {
                 )
               )
             } else {
-              reject(res.data)
+              reject(res)
             }
           } else {
             reject(res)
           }
         },
         (err) => {
-          console.log(err)
           reject(err)
         }
       )
