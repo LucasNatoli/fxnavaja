@@ -41,6 +41,22 @@ const scanProfiles = [
 	{
 		exchange: 'binance',
 		coin: 'BTC',
+		asset: 'BAT',
+		interval: '1h',
+		limit: 10
+	}
+	,
+	{
+		exchange: 'binance',
+		coin: 'BTC',
+		asset: 'BAT',
+		interval: '1d',
+		limit: 10
+	}
+	,
+	{
+		exchange: 'binance',
+		coin: 'BTC',
 		asset: 'ETH',
 		interval: '5m',
 		limit: 10
