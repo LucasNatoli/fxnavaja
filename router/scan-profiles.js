@@ -2,10 +2,13 @@
 
 module.exports = (app, db) => {
   app.get('/scan-profiles', (req, res) => {
-    db.alarm.findAll()
-      .then(alarms => {
-        res.json(alarms)
-      })
+    db.scanProfile
+    .findAll()
+    .then(
+      profiles => {
+        res.json(profiles)
+      }
+    )
   })
 
   app.post('/scan-profiles/', (req, res) => {
