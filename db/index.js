@@ -25,7 +25,7 @@ db.alarm = require('./alarm')(sequelize, Sequelize)
 db.alarmSuscription = require('./alarm-suscription')(sequelize, Sequelize)
 db.account = require('./account')(sequelize, Sequelize)
 db.coinmarketcapTick = require('./coinmarketcap_tick')(sequelize, Sequelize)
-
+db.scanProfile = require('./scan-profile')(sequelize, Sequelize)
 //relations
 db.alarm.hasMany(db.alarmSuscription)
 db.alarmSuscription.belongsTo(db.alarm)
