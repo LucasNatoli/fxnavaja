@@ -1,11 +1,11 @@
-//const env = process.env;
-const env = {
-  DB_HOST: 'localhost',
-  DB_PORT: 3306,
-  DB_NAME: 'razor',
-  DB_USER: 'webuser',
-  DB_PASSWORD: 'Termo1333Huawei'
-}
+const env = process.env
+// const env = {
+//   DB_HOST: 'localhost',
+//   DB_PORT: 3306,
+//   DB_NAME: 'razor',
+//   DB_USER: 'webuser',
+//   DB_PASSWORD: 'Termo1333Huawei'
+// }
 
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
