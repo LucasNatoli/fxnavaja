@@ -83,7 +83,6 @@ function readCandles(tableName, limit) {
 }
 
 function writeCandlesToTable(tableName, candles) {
-  console.log('sync:', tableName)
   syncModel(tableName)
   .then(
     (model) => {
