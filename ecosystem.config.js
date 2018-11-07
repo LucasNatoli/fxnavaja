@@ -54,11 +54,6 @@ module.exports = {
       }
     }
   ],
-
-  /**
-   * Deployment section
-   * http://pm2.keymetrics.io/docs/usage/deployment/
-   */
   deploy : {
     production : {
       key  : '/home/lucas/.ssh/id_rsa.pub',
@@ -67,7 +62,11 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'https://github.com/LucasNatoli/fxnavaja.git',
       path : '/home/razor/node',
-      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.config.js --env production"
+      "post-deploy" : "npm install && node sync.js"
     }
   }
 };
+
+/*
+"post-deploy" : "npm install && pm2 startOrRestart ecosystem.config.js --env production"
+*/

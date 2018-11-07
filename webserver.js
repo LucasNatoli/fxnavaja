@@ -23,15 +23,7 @@ app.use(session(
 
 router(app, db)
 
-db.sequelize
-.sync()
-.then(() => {
-  console.log("db authentication ok")
-  app.listen(PORT, () => console.log('r4Z0R listening on port ', PORT))
-})
-.catch(err => {
-  console.error('Unable to connect to the database:', err);
-});
+app.listen(PORT, () => console.log('r4Z0R listening on port ', PORT))
 
 /* 
 db.sequelize.sync(
