@@ -5,7 +5,7 @@ module.exports = (app, db) => {
    
     var sess = req.session
     if (typeof sess.userid != 'undefined'){
-      db.account.findOne({where: {userid=sess.userid}})
+      db.account.findOne({where: {userid:sess.userid}})
       .then(
         account=>{
           account.getScanBookmarks
