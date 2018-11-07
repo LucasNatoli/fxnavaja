@@ -6,7 +6,8 @@ const routes = [
   require('./exchanges'),
   require('./ranking'),
   require('./scan-profiles'),
-  require('./triggers')
+  require('./triggers'),
+  require('./scan-bookmarks')
 ]
 
 module.exports = function router(app, db) {
