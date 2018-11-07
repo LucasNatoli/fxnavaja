@@ -45,12 +45,7 @@ module.exports = {
       },
       env_production : {
         NODE_ENV: 'production',
-        PORT: 3000,
-        DB_HOST: 'localhost',
-        DB_PORT: 3306,
-        DB_NAME: 'razor',
-        DB_USER: 'webuser',
-        DB_PASSWORD: 'Termo1333Huawei'
+        PORT: 3000
       }
     }
   ],
