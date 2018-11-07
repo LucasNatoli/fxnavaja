@@ -21,20 +21,12 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 //Models
-db.alarm = require('./alarm')(sequelize, Sequelize)
-db.alarmSuscription = require('./alarm-suscription')(sequelize, Sequelize)
 db.account = require('./account')(sequelize, Sequelize)
 db.coinmarketcapTick = require('./coinmarketcap_tick')(sequelize, Sequelize)
 db.scanProfile = require('./scan-profile')(sequelize, Sequelize)
 db.trigger = require('./trigger')(sequelize, Sequelize)
 db.scanBookmark = require('./scan-bookmark')(sequelize, Sequelize)
 
-//relations
-db.alarm.hasMany(db.alarmSuscription)
-db.alarmSuscription.belongsTo(db.alarm)
-
-db.account.hasMany(db.alarmSuscription)
-db.alarmSuscription.belongsTo(db.account)
 
 //account scan bookmarks
 db.account.hasMany(db.scanBookmark)

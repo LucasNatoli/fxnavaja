@@ -2,7 +2,6 @@
 
 const routes = [
   require('./accounts'),
-  require('./alarms'),
   require('./exchanges'),
   require('./ranking'),
   require('./scan-profiles'),
