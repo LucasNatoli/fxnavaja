@@ -1,5 +1,5 @@
-const env = process.env;
-const Sequelize = require('sequelize');
+const env = process.env
+const Sequelize = require('sequelize')
 const sequelize = new Sequelize(
     env.DB_NAME,
     env.DB_USER,
@@ -13,12 +13,12 @@ const sequelize = new Sequelize(
         },
         logging: false
     }
-);
+)
 
 var db = {};
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+db.Sequelize = Sequelize
+db.sequelize = sequelize
 
 //Models
 db.alarm = require('./alarm')(sequelize, Sequelize)
@@ -26,6 +26,8 @@ db.alarmSuscription = require('./alarm-suscription')(sequelize, Sequelize)
 db.account = require('./account')(sequelize, Sequelize)
 db.coinmarketcapTick = require('./coinmarketcap_tick')(sequelize, Sequelize)
 db.scanProfile = require('./scan-profile')(sequelize, Sequelize)
+db.trigger = require('./trigger')(sequelize, Sequelize)
+
 //relations
 db.alarm.hasMany(db.alarmSuscription)
 db.alarmSuscription.belongsTo(db.alarm)
