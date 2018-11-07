@@ -39,7 +39,7 @@ db.alarmSuscription.belongsTo(db.account)
 //account scan bookmarks
 db.account.hasMany(db.scanBookmark)
 db.scanBookmark.belongsTo(db.account)
-
 db.scanBookmark.belongsTo(db.scanProfile)
+db.scanBookmark.belongsTo(db.trigger)
 
 module.exports = db;

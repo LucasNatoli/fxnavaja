@@ -7,36 +7,25 @@ module.exports = (app, db) => {
     if (typeof sess.userid != 'undefined'){
       db.account.findOne({
         where: {userid:sess.userid},
-        include: [{model: db.scanBookmark, include: [db.scanProfile]}]
+        include: [{model: db.scanBookmark, include: [db.scanProfile, db.trigger]}]
       })
       .then(
         account=>{
-          
           res.json(
             account.scanBookmarks.map(
               bm=>{ 
                 return {
+                  id: bm.id,
                   active: bm.active, 
-                  scanProfile: {
-                    id: bm.scanProfile.id, 
-                    exchange: bm.scanProfile.exchange,
-                    coin: bm.scanProfile.coin,
-                    asset: bm.scanProfile.asset,
-                    interval: bm.scanProfile.interval
-                  }
+                  scanProfile: bm.scanProfile.dataValues,
+                  trigger: bm.trigger.dataValues
                 }
               }
             )
           )
-          
-          // account.getScanBookmarks()
-          // .then(
-          //   bookmarks=>{res.json(bookmarks)},
-          //   err=>{
-          //     res.status(500)
-          //     console.log('error: ', err)
-          //   }
-          // )
+        },
+        err=>{
+          res.status(401).send()
         }
       )
     } else {
@@ -46,7 +35,7 @@ module.exports = (app, db) => {
 
   app.post('/scan-bookmarks/', (req, res) => {
  
-    var exchange = req.body.exchange
+    var exchange = req.body.scanProfile
     var coin = req.body.coin
     var asset = req.body.asset
     var interval = req.body.interval
