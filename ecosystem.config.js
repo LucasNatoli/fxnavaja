@@ -12,21 +12,11 @@ module.exports = {
       ignore_watch : ["node_modules", "docs", "sqlite3", ".git", "candles"],      
       env: {
         NODE_ENV: 'development',
-        PORT: 3000,
-        DB_HOST: 'localhost',
-        DB_PORT: 3306,
-        DB_NAME: 'razor',
-        DB_USER: 'webuser',
-        DB_PASSWORD: 'Termo1333Huawei'
+        PORT: 3000
       },
       env_production : {
         NODE_ENV: 'production',
-        PORT: 3000,
-        DB_HOST: 'localhost',
-        DB_PORT: 3306,
-        DB_NAME: 'razor',
-        DB_USER: 'webuser',
-        DB_PASSWORD: 'Termo1333Huawei'
+        PORT: 3000
       }
     },
     {
@@ -36,12 +26,7 @@ module.exports = {
       ignore_watch : ["node_modules", "docs", "sqlite3", ".git", "candles"],      
       env: {
         NODE_ENV: 'development',
-        PORT: 3000,
-        DB_HOST: 'localhost',
-        DB_PORT: 3306,
-        DB_NAME: 'razor',
-        DB_USER: 'webuser',
-        DB_PASSWORD: 'Termo1333Huawei'
+        PORT: 3000
       },
       env_production : {
         NODE_ENV: 'production',
