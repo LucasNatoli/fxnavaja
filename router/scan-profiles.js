@@ -3,7 +3,7 @@
 module.exports = (app, db) => {
   app.get('/scan-profiles', (req, res) => {
     db.scanProfile
-    .findAll()
+    .findAll({attributes: ['id', 'exchange', 'coin', 'asset', 'interval']})
     .then(
       profiles => {
         res.json(profiles)
