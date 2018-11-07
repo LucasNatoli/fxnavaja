@@ -2,13 +2,8 @@ const Indicator = require('../utils/indicator')
 const Calc = require('../utils/calc')
 const Store = require('./store')
 const Operators = require('./operators')
+const db = require('../db')
 
-const profile = {
-  exchange: 'bittrex',
-  coin: 'BTC',
-  asset: 'ETH',
-  interval: 'fiveMin'
-}
 
 var strat = {
   termA : 'L',
@@ -16,7 +11,6 @@ var strat = {
   operator : 'lessOrEqual'
 }
 
-var s = new Store(profile)
 
 function Analyzer(candles, strategy){
   this.candles = candles
@@ -37,6 +31,11 @@ function Analyzer(candles, strategy){
     }
     this.valueA = this.lastCandle()[s.termA]
     this.valueB = this.lastCandle()[s.termB]
+
+    if (Operators[s.operator](this.valueA, this.valueB)) {
+      //Baliza
+    }
+    
     console.log('lastCandle', this.lastCandle())
     console.log('valueA', this.valueA)
     console.log('valueB', this.valueB)
@@ -48,12 +47,24 @@ function Analyzer(candles, strategy){
   }
 }
 
-s.readAll()
+
+db.scanProfile.findAll()
 .then(
-  candles => {
-    var c = new Analyzer(candles, strat)
-    c.run()
+  profiles=>{
+      profiles.forEach(
+        profile => {
+          new Store(profile)
+          .readAll()
+          .then(
+            candles => {
+              new Analyzer(candles, strat)
+              .run()
+            }
+          )
+    });
   }
 )
+
+
 // console.log('termA isCandleValue', Calc.isCandleValue(strat.termA))
 // console.log('termB isCandleValue', Calc.isCandleValue(strat.termB))
