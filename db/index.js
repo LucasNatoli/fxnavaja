@@ -27,6 +27,7 @@ db.account = require('./account')(sequelize, Sequelize)
 db.coinmarketcapTick = require('./coinmarketcap_tick')(sequelize, Sequelize)
 db.scanProfile = require('./scan-profile')(sequelize, Sequelize)
 db.trigger = require('./trigger')(sequelize, Sequelize)
+db.scanBookmark = require('./scan-bookmark')(sequelize, Sequelize)
 
 //relations
 db.alarm.hasMany(db.alarmSuscription)
@@ -35,5 +36,11 @@ db.alarmSuscription.belongsTo(db.alarm)
 db.account.hasMany(db.alarmSuscription)
 db.alarmSuscription.belongsTo(db.account)
 
+//account scan bookmarks
+db.account.hasMany(db.scanBookmark)
+db.scanBookmark.belongsTo(db.account)
+
+db.scanProfile.hasMany(db.scanBookmark)
+db.scanBookmark.belongsTo(db.scanProfile)
 
 module.exports = db;
