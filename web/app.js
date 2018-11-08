@@ -1,5 +1,5 @@
-
 'use strict';
+
 var templates = {
   rankingCard: document.getElementById('ranking_card_template'),
   exchangesListItem: document.getElementById('exchanges_listitem'),
@@ -69,40 +69,33 @@ var app = {
 document.addEventListener("DOMContentLoaded", function(event) { 
   sendAjaxRequest('/accounts/check', 'GET', null, callBackCheckSession)
 })
-
-document.getElementById('add_strategy_bookmark_button').addEventListener('click', function(e){
+document.getElementById('add_strategy_bookmark_button').addEventListener('click', e => {
   e.preventDefault()
   hideAll()
   showElement(app.strategyBookmarkDialog)
 })
-
 document.getElementById('btn_exchanges').addEventListener('click', function(e){
   e.preventDefault()
   hideAll()
   showElement(app.exchangesPanel)
 })
-
 document.getElementById('btn_home').addEventListener('click', function(e){
   e.preventDefault()
   hideAll()
   showElement(app.rankingPanel)
 })
-
 document.getElementById('btn_scan_profiles').addEventListener('click', function(e) {
   e.preventDefault()
   hideAll()
   showElement(app.scanProfilesPanel)
 })
-
 document.getElementById('btn_logout').addEventListener('click', function(){
   sendAjaxRequest('/accounts/logout', 'GET')
 })
-
 document.getElementById('new_account').addEventListener('click', function(){
   hideElement(app.loginDialog);
   showElement(app.registerDialog);
 })
-
 document.getElementById('register_button').addEventListener('click', function(){
   var parameters = JSON.stringify({
     "userid": document.getElementById('reg-userid').value,
@@ -113,7 +106,6 @@ document.getElementById('register_button').addEventListener('click', function(){
   hideElement(app.registerDialog)
   sendAjaxRequest("/accounts/register", "POST", parameters, callBackRegister)
 })
-
 document.getElementById('login_button').addEventListener('click', function() {
   var parameters = JSON.stringify({
       "userid": document.getElementById('userid').value,
@@ -122,6 +114,12 @@ document.getElementById('login_button').addEventListener('click', function() {
   hideElement(app.loginDialog)
   sendAjaxRequest("/accounts/login", "POST", parameters, callBackLogin)
 })
+document.getElementById('strategy-exchange').addEventListener('change', ()=>{
+  var exchange = document.getElementById('strategy-exchange').value
+  console.log(exchange)
+  //cargar los intervalos del exchage
+  //borrar la lista de intervalos
+})
 
 /***************************************************************************
 * UI methods
@@ -129,38 +127,33 @@ document.getElementById('login_button').addEventListener('click', function() {
 function showElement(element){
   element.classList.remove("hide");
 }
-
 function hideElement(element){
   element.classList.add("hide");
 }
-
 function hideAll(){
   hideElement(app.registerDialog)
   hideElement(app.loginDialog)
   hideElement(app.scanProfilesPanel)
   hideElement(app.rankingPanel)
   hideElement(app.exchangesPanel)
+  hideElement(app.strategyBookmarkDialog)
 }
-
 function clearList(element) {
   while(element.childElementCount>0){
     list.removeChild(element.firstChild)
   }
 }
-
 function removeOptions(selectBox) {
   for(var i=0; i < selectBox.options.length; i++) {
     selectBox.remove(i)
   }
 }
-
 function renderOptions(selectBox, value, text) {
   var option = document.createElement('option')
   option.value = value
   option.innerText = text
   selectBox.appendChild(option)
 }
-
 function drawRanking(ranking){
   
   clearList(app.rankingPanel)
@@ -175,7 +168,6 @@ function drawRanking(ranking){
     showElement(e)
   })
 }
-
 function drawListExchanges(exchanges){
   
   let list = app.exchangesPanel.getElementsByClassName('mdl-list')[0]
@@ -188,7 +180,6 @@ function drawListExchanges(exchanges){
     showElement(e)
   })
 }
-
 function drawListScanProfiles(){
   
   let list = app.scanProfilesPanel.getElementsByClassName('mdl-list')[0]
@@ -203,7 +194,6 @@ function drawListScanProfiles(){
     showElement(e)
   })
 }
-
 function showNotification(message, timeout, actionText, actionHandler){
   var data = {
     message: message,
@@ -233,7 +223,6 @@ function callBackCheckSession(status, response) {
   if (status === 200) {initApp(response)}
   if (status === 401) {showElement(app.loginDialog)}
 }
-
 function callBackLogin(status, response) {
   if (status === 200) {initApp(response) }
   if (status === 401) {
@@ -241,7 +230,6 @@ function callBackLogin(status, response) {
     showElement(app.loginDialog)
   }  
 }
-
 function callBackRegister(status, response) {
   if (status === 200) {
     hideElement(app.registerDialog);
@@ -255,9 +243,6 @@ function callBackRegister(status, response) {
       //showElement(app.registerError);
   } 
 }   
-
-
-
 
 /***************************************************************************
 * Server comm
