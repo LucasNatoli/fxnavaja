@@ -51,10 +51,10 @@
       </header>
       
       <nav class="mdl-navigation">
-        <a id="btn_home" class="mdl-navigation__link" href="">Home</a>
-        <!-- <a class="mdl-navigation__link" href="">Markets</a> -->
-        <a id="btn_scan_profiles" class="mdl-navigation__link" href="">Scanners</a>
+        <a id="btn_home_nav" class="mdl-navigation__link" href="">Home</a>
+        <a id="btn_bookmarks_nav" class="mdl-navigation__link" href="">Bookmarks</a>
         <a id="btn_exchanges" class="mdl-navigation__link" href="">Exchanges</a>
+        <a id="btn_triggers_nav" class="mdl-navigation__link" href="">Triggers</a>
         <a id="btn_logout" class="mdl-navigation__link" href="">Salir</a>
       </nav>
     </div>
@@ -84,7 +84,13 @@
         <ul class="mdl-list mdl-color--white mdl-cell mdl-cell--12-col mdl-shadow--2dp"></ul>
       </div>
 
-      <!-- Login -->
+      <!-- System Triggers Panel-->
+      <div id="triggers_panel" class="mdl-grid hide">
+        <h4 style="margin:8px 0px 8px 16px">Triggers</h4>
+        <ul class="mdl-list mdl-color--white mdl-cell mdl-cell--12-col mdl-shadow--2dp"></ul>
+      </div>
+
+      <!-- Login Dialog -->
       <div id="login_dialog" class="mdl-grid hide" style="align-items: center; justify-content: center; margin-top: 50px">
         <div class="mdl-card mdl-shadow--6dp">
           <div class="mdl-card__title">
@@ -149,7 +155,7 @@
         </div>
       </div>  
 
-      <!-- startegy bookmark form -->
+      <!-- Bookmark form -->
       <div id="strategy_bookmark_dialog" class="mdl-cell mdl-cell--12-col mdl-grid hide" style="align-items: center; justify-content: center">
         <div class="mdl-card mdl-shadow--6dp">
           <div class="mdl-card__title">
@@ -179,15 +185,21 @@
                 <label class="mdl-textfield__label" for="strategy-interval">Intervalo</label>
               </div>
               <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-                <input class="mdl-textfield__input" type="required" id="strategy-trigger" />
+                <select class="mdl-textfield__input" id="strategy-trigger">
+                </select>
                 <label class="mdl-textfield__label" for="strategy-trigger">Disparador</label>
               </div>
             </form>
           </div>
           <div class="mdl-card__actions">
-            <button id="strategy_save_button" class="mdl-button mdl-button--accent mdl-button--raised mdl-js-button mdl-js-ripple-effect">
-              Guardar
-            </button>
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--2-col-phone" style="text-align: center;">
+                  <button id="strategy_cancel_button" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Cancelar</button>
+                </div>
+                <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--2-col-phone" style="text-align: center;">
+                  <button id="strategy_save_button" class="mdl-button mdl-button--accent mdl-button--raised mdl-js-button mdl-js-ripple-effect">Guardar</button>
+                </div>
+              </div>
           </div>
         </div>
       </div>  
@@ -247,6 +259,19 @@
       </li>
 
 
+      <li id="trigger_listitem" class="mdl-list__item mdl-list__item--three-line hide">
+        <span class="mdl-list__item-primary-content">
+          <span class="trigger_name">...</span>- 
+          
+          <span class="mdl-list__item-text-body">
+            <span class="mdl-list__item-text-body">
+                <span class="trigger_termA">...</span>&nbsp;
+                <span class="trigger_operator">...</span>&nbsp;
+                <span class="trigger_termB">...</span>
+            </span>
+          </span>
+        </span>
+      </li>
       </div>
     </main>
 

@@ -4,6 +4,7 @@ var templates = {
   rankingCard: document.getElementById('ranking_card_template'),
   exchangesListItem: document.getElementById('exchanges_listitem'),
   scanProfileListItem: document.getElementById('scan_profiles_listitem'),
+  triggerListItem: document.getElementById('trigger_listitem')
 }
 
 var storage = {
@@ -11,7 +12,7 @@ var storage = {
     {
       value: 'binance',
       text: 'Binance',
-      intevals: [
+      intervals: [
         {value: '1m', text: '1 minuto'},
         {value: '5m', text: '5 Minutos'}, 
         {value: '30m', text: '30 Minutos'},
@@ -22,12 +23,11 @@ var storage = {
         {value: '1w', text: '1 Semana'},
         {value: '1M', text: '1 Mes'},
       ]
-    }
-    ,
+    },
     {
       value: 'bittrex',
       text: 'Bittrex',
-      intevals: [
+      intervals: [
         {value: 'oneMin', text: '1 minuto'},
         {value: 'fiveMin', text: '5 Minutos'}, 
         {value: 'thirtyMin', text: '30 Minutos'},
@@ -35,17 +35,29 @@ var storage = {
         {value: 'day', text: '1 Dia'}
       ]
     }    
+  ],
+  triggers: [
+    {id: 1, name: 'Comprar por debajo de Bollinger Low', termA: 'C', termB: 'BB_C_20_2_lower', operator: 'lessOrEqual'},
+    {id: 2, name: 'Vender por arriba de Bollinger Upper', termA: 'C', termB: 'BB_C_20_2_upper', operator: 'greaterOrEqual'}
   ]
+
 };
 
-storage.fetch = function(endpoint, slotName, onSuccess){
+storage.fetch = function(endpoint, slotName, onSuccess, onError){
+
+  //ESTO ES TOTALMENTE PRECARIO Y ES A FIN DE MAQUETADO
   if (!storage[slotName]) {
     sendAjaxRequest(endpoint, 'GET', null, (status, results) => {
       if (status===200) {
         storage[slotName]=results
-        if (onSuccess) onSuccess(storage[slotName])
+        if (onSuccess) onSuccess()
+      } else {
+        if (onError) onError(status)
+        //onError ? onError(status) : null
       }
     })
+  } else {
+    if (onSuccess) onSuccess()
   }
 }
 
@@ -54,49 +66,73 @@ var app = {
   baseUrl: 'http://localhost:3000',
   userData: {},
   spinner: document.getElementById('spinner'),
+  notification: document.querySelector('.mdl-js-snackbar'),
+
   registerDialog: document.getElementById('register_dialog'),
   loginDialog: document.getElementById('login_dialog'),
   strategyBookmarkDialog: document.getElementById('strategy_bookmark_dialog'),
+
   rankingPanel: document.getElementById('ranking_panel'),
   exchangesPanel: document.getElementById('exchanges_panel'),
   scanProfilesPanel: document.getElementById('scan_profiles_panel'),
-  notification: document.querySelector('.mdl-js-snackbar')
+  triggersPanel: document.getElementById('triggers_panel'),
+
+  navHome: document.getElementById('btn_home_nav'),
+  navBookmarks: document.getElementById('btn_bookmarks_nav'),
+  navExchanges: document.getElementById('btn_exchanges'),
+  navTriggers: document.getElementById('btn_triggers_nav'),
+
+  newBookmarkButton : document.getElementById('add_strategy_bookmark_button'),
+  newAccountButton: document.getElementById('new_account'),
+  registerButton: document.getElementById('register_button'),
+  loginButton: document.getElementById('login_button'),
+  logoutButton : document.getElementById('btn_logout'),
+  strategySaveButton: document.getElementById('strategy_save_button'),
+
+  exchangesSelect: document.getElementById('strategy-exchange'),
+  intervalsSelect: document.getElementById('strategy-interval'),
+  triggersSelect: document.getElementById('strategy-trigger')
 };  
 
 /***************************************************************************
 * UI events
 ****************************************************************************/
-document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", e => { 
   sendAjaxRequest('/accounts/check', 'GET', null, callBackCheckSession)
 })
-document.getElementById('add_strategy_bookmark_button').addEventListener('click', e => {
+app.newBookmarkButton.addEventListener('click', e => {
   e.preventDefault()
   hideAll()
   showElement(app.strategyBookmarkDialog)
 })
-document.getElementById('btn_exchanges').addEventListener('click', function(e){
+app.navExchanges.addEventListener('click', e => {
   e.preventDefault()
   hideAll()
   showElement(app.exchangesPanel)
 })
-document.getElementById('btn_home').addEventListener('click', function(e){
+app.navHome.addEventListener('click', e => {
   e.preventDefault()
   hideAll()
   showElement(app.rankingPanel)
 })
-document.getElementById('btn_scan_profiles').addEventListener('click', function(e) {
+app.navBookmarks.addEventListener('click', e => {
   e.preventDefault()
   hideAll()
   showElement(app.scanProfilesPanel)
 })
-document.getElementById('btn_logout').addEventListener('click', function(){
+app.navTriggers.addEventListener('click', e => {
+  e.preventDefault()
+  hideAll()
+  showElement(app.triggersPanel)
+})
+app.logoutButton.addEventListener('click', () => {
   sendAjaxRequest('/accounts/logout', 'GET')
 })
-document.getElementById('new_account').addEventListener('click', function(){
+app.newAccountButton.addEventListener('click', () => {
   hideElement(app.loginDialog);
   showElement(app.registerDialog);
 })
-document.getElementById('register_button').addEventListener('click', function(){
+app.registerButton.addEventListener('click', () => {
   var parameters = JSON.stringify({
     "userid": document.getElementById('reg-userid').value,
     "name": document.getElementById('reg-name').value,
@@ -106,7 +142,7 @@ document.getElementById('register_button').addEventListener('click', function(){
   hideElement(app.registerDialog)
   sendAjaxRequest("/accounts/register", "POST", parameters, callBackRegister)
 })
-document.getElementById('login_button').addEventListener('click', function() {
+app.loginButton.addEventListener('click', () => {
   var parameters = JSON.stringify({
       "userid": document.getElementById('userid').value,
       "password": document.getElementById('password').value
@@ -114,13 +150,22 @@ document.getElementById('login_button').addEventListener('click', function() {
   hideElement(app.loginDialog)
   sendAjaxRequest("/accounts/login", "POST", parameters, callBackLogin)
 })
-document.getElementById('strategy-exchange').addEventListener('change', ()=>{
-  var exchange = document.getElementById('strategy-exchange').value
-  console.log(exchange)
-  //cargar los intervalos del exchage
-  //borrar la lista de intervalos
+app.exchangesSelect.addEventListener('change', ()=>{
+  var exchs = storage.exchanges.filter(
+    (exch) => {return exch.value === app.exchangesSelect.value}
+  )
+  renderIntervalOptions(exchs[0].intervals)
 })
-
+app.strategySaveButton.addEventListener('click', e => {
+  var parameters = JSON.stringify({
+    "exchange": app.exchangesSelect.value,
+    "coin": document.getElementById('strategy-coin').value,
+    "asset": document.getElementById('strategy-asset').value,
+    "interval": app.intervalsSelect.value,
+    "trigger": app.triggersSelect.value
+  })
+  console.log('parametros', parameters)
+})
 /***************************************************************************
 * UI methods
 ****************************************************************************/
@@ -137,26 +182,21 @@ function hideAll(){
   hideElement(app.rankingPanel)
   hideElement(app.exchangesPanel)
   hideElement(app.strategyBookmarkDialog)
+  hideElement(app.triggersPanel)
 }
-function clearList(element) {
-  while(element.childElementCount>0){
-    list.removeChild(element.firstChild)
+function removeListitems(list) {
+  while(list.childElementCount>0){
+    list.removeChild(list.firstChild)
   }
 }
-function removeOptions(selectBox) {
-  for(var i=0; i < selectBox.options.length; i++) {
-    selectBox.remove(i)
+function removeOptions(select) {
+  for(var i=0; i < select.options.length; i++) {
+    select.remove(i)
   }
 }
-function renderOptions(selectBox, value, text) {
-  var option = document.createElement('option')
-  option.value = value
-  option.innerText = text
-  selectBox.appendChild(option)
-}
-function drawRanking(ranking){
+function renderRanking(ranking){
   
-  clearList(app.rankingPanel)
+  removeListitems(app.rankingPanel)
   storage.ranking.forEach(element => {
     var e = templates.rankingCard.cloneNode(true)
     e.getElementsByClassName('name')[0].innerText = element.name
@@ -168,22 +208,39 @@ function drawRanking(ranking){
     showElement(e)
   })
 }
-function drawListExchanges(exchanges){
+function renderExchangesPanel(){
   
   let list = app.exchangesPanel.getElementsByClassName('mdl-list')[0]
-  clearList(list)
-
-  exchanges.forEach(element => {
-    var e = templates.exchangesListItem.cloneNode(true)
-     e.getElementsByClassName('name')[0].innerText = element.name
-    list.appendChild(e)
-    showElement(e)
-  })
+  removeListitems(list)
+  storage.exchanges.forEach(
+    exchange => {
+      var e = templates.exchangesListItem.cloneNode(true)
+      e.getElementsByClassName('name')[0].innerText = exchange.text
+      list.appendChild(e)
+      showElement(e)
+    }
+  )
 }
-function drawListScanProfiles(){
+function renderTriggersPanel(){
+  
+  let list = app.triggersPanel.getElementsByClassName('mdl-list')[0]
+  removeListitems(list)
+  storage.triggers.forEach(
+    trigger => {
+      var e = templates.triggerListItem.cloneNode(true)
+      e.getElementsByClassName('trigger_name')[0].innerText = trigger.name
+      e.getElementsByClassName('trigger_termA')[0].innerText = trigger.termA
+      e.getElementsByClassName('trigger_operator')[0].innerText = trigger.operator
+      e.getElementsByClassName('trigger_termB')[0].innerText = trigger.termB
+      list.appendChild(e)
+      showElement(e)
+    }
+  )
+}
+function renderScanProfilesList(){
   
   let list = app.scanProfilesPanel.getElementsByClassName('mdl-list')[0]
-  clearList(list)
+  removeListitems(list)
   storage.scanProfiles.forEach(p => {
     var e = templates.scanProfileListItem.cloneNode(true)
     e.getElementsByClassName('scan_profile_exchange')[0].innerText = p.exchange
@@ -193,6 +250,22 @@ function drawListScanProfiles(){
     list.appendChild(e)
     showElement(e)
   })
+}
+function renderIntervalOptions(intervals) {
+  var html = "<option></option>"
+  removeOptions(app.intervalsSelect)
+  intervals.forEach(
+    (interval) => { html += "<option value='" + interval.value + "'>" + interval.text + "</option>" }
+  )
+  app.intervalsSelect.innerHTML = html
+}
+function renderTriggersOptions() {
+  var html = "<option></option>"
+  removeOptions(app.triggersSelect)
+  storage.triggers.forEach(
+    trigger => {html += "<option value='" + trigger.id + "'>" + trigger.name + "</option>"}
+  )
+  app.triggersSelect.innerHTML = html
 }
 function showNotification(message, timeout, actionText, actionHandler){
   var data = {
@@ -210,13 +283,19 @@ function showNotification(message, timeout, actionText, actionHandler){
 * Callbacks
 ****************************************************************************/
 function initApp(response) {
-  app.userData = response;
+  app.userData = response
+
+  //TODO: Faltan los onError de todos estos fetch
   storage.fetch('/ranking', 'ranking', ()=>{
-    drawRanking()
-    showElement(app.rankingPanel)
+    renderRanking()
+    showElement(app.rankingPanel)  
   })
-  storage.fetch('/exchanges', 'exchanges', drawListExchanges)
-  storage.fetch('/scan-profiles', 'scanProfiles', drawListScanProfiles)  
+  storage.fetch('/exchanges', 'exchanges', renderExchangesPanel)
+  storage.fetch('/scan-profiles', 'scanProfiles', renderScanProfilesList)  
+  storage.fetch('/triggers', 'triggers', () => {
+    renderTriggersOptions()
+    renderTriggersPanel()
+  })  
 }
 function callBackCheckSession(status, response) {
 
