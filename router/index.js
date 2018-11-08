@@ -6,7 +6,7 @@ const routes = [
   require('./ranking'),
   require('./scan-profiles'),
   require('./triggers'),
-  require('./scan-bookmarks')
+  require('./bookmarks')
 ]
 
 module.exports = function router(app, db) {

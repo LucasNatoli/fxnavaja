@@ -36,10 +36,6 @@ var storage = {
       ]
     }    
   ],
-  triggers: [
-    {id: 1, name: 'Comprar por debajo de Bollinger Low', termA: 'C', termB: 'BB_C_20_2_lower', operator: 'lessOrEqual'},
-    {id: 2, name: 'Vender por arriba de Bollinger Upper', termA: 'C', termB: 'BB_C_20_2_upper', operator: 'greaterOrEqual'}
-  ]
 
 };
 
@@ -70,7 +66,7 @@ var app = {
 
   registerDialog: document.getElementById('register_dialog'),
   loginDialog: document.getElementById('login_dialog'),
-  strategyBookmarkDialog: document.getElementById('strategy_bookmark_dialog'),
+  newBookmarkDialog: document.getElementById('strategy_bookmark_dialog'),
 
   rankingPanel: document.getElementById('ranking_panel'),
   exchangesPanel: document.getElementById('exchanges_panel'),
@@ -82,11 +78,11 @@ var app = {
   navExchanges: document.getElementById('btn_exchanges'),
   navTriggers: document.getElementById('btn_triggers_nav'),
 
-  newBookmarkButton : document.getElementById('add_strategy_bookmark_button'),
+  newBookmarkButton : document.getElementById('new_bookmark_button'),
   newAccountButton: document.getElementById('new_account'),
   registerButton: document.getElementById('register_button'),
   loginButton: document.getElementById('login_button'),
-  logoutButton : document.getElementById('btn_logout'),
+  logoutButton : document.getElementById('logout_button'),
   strategySaveButton: document.getElementById('strategy_save_button'),
 
   exchangesSelect: document.getElementById('strategy-exchange'),
@@ -103,7 +99,7 @@ document.addEventListener("DOMContentLoaded", e => {
 app.newBookmarkButton.addEventListener('click', e => {
   e.preventDefault()
   hideAll()
-  showElement(app.strategyBookmarkDialog)
+  showElement(app.newBookmarkDialog)
 })
 app.navExchanges.addEventListener('click', e => {
   e.preventDefault()
@@ -164,7 +160,7 @@ app.strategySaveButton.addEventListener('click', e => {
     "interval": app.intervalsSelect.value,
     "trigger": app.triggersSelect.value
   })
-  console.log('parametros', parameters)
+  sendAjaxRequest("/bookmarks", "POST", parameters, callBackNewBookmark)
 })
 /***************************************************************************
 * UI methods
@@ -181,7 +177,7 @@ function hideAll(){
   hideElement(app.scanProfilesPanel)
   hideElement(app.rankingPanel)
   hideElement(app.exchangesPanel)
-  hideElement(app.strategyBookmarkDialog)
+  hideElement(app.newBookmarkDialog)
   hideElement(app.triggersPanel)
 }
 function removeListitems(list) {
@@ -323,6 +319,14 @@ function callBackRegister(status, response) {
   } 
 }   
 
+function callBackNewBookmark(status, response) {
+  Console.log('callback')
+  if (status === 200) {
+    hideElement(app.newBookmarkDialog)
+  } else {
+    //TODO: Inform error
+  }
+}
 /***************************************************************************
 * Server comm
 ****************************************************************************/
