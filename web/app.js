@@ -58,15 +58,13 @@ storage.fetch = function(endpoint, slotName, onSuccess, onError){
 }
 
 var app = {
-  isLoading: true,
-  baseUrl: 'http://localhost:3000',
   userData: {},
   spinner: document.getElementById('spinner'),
   notification: document.querySelector('.mdl-js-snackbar'),
 
   registerDialog: document.getElementById('register_dialog'),
   loginDialog: document.getElementById('login_dialog'),
-  newBookmarkDialog: document.getElementById('strategy_bookmark_dialog'),
+  newBookmarkDialog: document.getElementById('new_bookmark_dialog'),
 
   rankingPanel: document.getElementById('ranking_panel'),
   exchangesPanel: document.getElementById('exchanges_panel'),
@@ -167,6 +165,7 @@ app.strategySaveButton.addEventListener('click', e => {
 ****************************************************************************/
 function showElement(element){
   element.classList.remove("hide");
+  componentHandler.upgradeElement(element)
 }
 function hideElement(element){
   element.classList.add("hide");
@@ -190,7 +189,7 @@ function removeOptions(select) {
     select.remove(i)
   }
 }
-function renderRanking(ranking){
+function renderRanking(){
   
   removeListitems(app.rankingPanel)
   storage.ranking.forEach(element => {
@@ -320,7 +319,6 @@ function callBackRegister(status, response) {
 }   
 
 function callBackNewBookmark(status, response) {
-  Console.log('callback')
   if (status === 200) {
     hideElement(app.newBookmarkDialog)
   } else {

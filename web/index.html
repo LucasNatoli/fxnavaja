@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Razor</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-red.min.css" />
   <style>
@@ -27,70 +27,60 @@
 </head>
 <body>
 
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <!-- Header -->
-    <header class="mdl-layout__header">
-      <div class="mdl-layout__header-row">
-        <span class="mdl-layout-title">Razor</span>
-        <div class="mdl-layout-spacer"></div>
-        <nav class="mdl-navigation">
-          <button id="refresh_button" class="mdl-button mdl-js-button mdl-button--icon ">
-            <i class="material-icons">refresh</i>
-           </button>
-           <button id="new_bookmark_button" class="mdl-button mdl-js-button mdl-button--icon ">
-            <i class="material-icons">add</i>
-           </button>
-        </nav>
-      </div>
-    </header>
-
-    <!-- Drawer -->
-    <div class="mdl-layout__drawer">
-      <header style="margin-top:20px; text-align:center">
-          <img width="96" height="96" src="razor_v1.png">
-      </header>
-      
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <!-- Header -->
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Razor</span>
+      <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation">
-        <a id="btn_home_nav" class="mdl-navigation__link" href="">Home</a>
-        <a id="btn_bookmarks_nav" class="mdl-navigation__link" href="">Bookmarks</a>
-        <a id="btn_exchanges" class="mdl-navigation__link" href="">Exchanges</a>
-        <a id="btn_triggers_nav" class="mdl-navigation__link" href="">Triggers</a>
-        <a id="logout_button" class="mdl-navigation__link" href="">Salir</a>
+        <button id="refresh_button" class="mdl-button mdl-js-button mdl-button--icon ">
+          <i class="material-icons">refresh</i>
+          </button>
+          <button id="new_bookmark_button" class="mdl-button mdl-js-button mdl-button--icon ">
+          <i class="material-icons">add</i>
+          </button>
       </nav>
     </div>
+  </header>
 
-    <!-- Content -->
-    <main class="mdl-layout__content">
-      <div class="page-content" style="padding:5px">
+  <!-- Drawer -->
+  <div class="mdl-layout__drawer">
+    <header style="margin-top:20px; text-align:center">
+      <img width="96" height="96" src="razor_v1.png">
+    </header>
+    
+    <nav class="mdl-navigation">
+      <a id="btn_home_nav" class="mdl-navigation__link" href="">Home</a>
+      <a id="btn_bookmarks_nav" class="mdl-navigation__link" href="">Bookmarks</a>
+      <a id="btn_exchanges" class="mdl-navigation__link" href="">Exchanges</a>
+      <a id="btn_triggers_nav" class="mdl-navigation__link" href="">Triggers</a>
+      <a id="logout_button" class="mdl-navigation__link" href="">Salir</a>
+    </nav>
+  </div>
 
-      <!-- MDL Spinner Component -->
-      <div id="spinner" class="mdl-cell mdl-cell--12-col mdl-grid" style="align-items: center; justify-content: center">
-        <div class="mdl-spinner mdl-js-spinner is-active"></div>
-      </div>
-
-      <!-- Ranking panel -->
+  <!-- Content -->
+  <main class="mdl-layout__content">
+    <div class="page-content" style="padding:5px">
+      <!-- ranking panel -->
       <div id="ranking_panel" class="mdl-grid hide"> 
       </div>
-
-      <!-- Exchanges panel -->
+      <!-- exchanges panel -->
       <div id="exchanges_panel" class="mdl-grid hide"> 
         <h4 style="margin:8px 0px 8px 16px">Exchanges</h4>
         <ul class="mdl-list mdl-cell mdl-cell--12-col mdl-shadow--2dp"> </ul>
       </div>
-
-      <!-- scan_profiles panel -->
+      <!-- bookmarks panel -->
       <div id="scan_profiles_panel" class="mdl-grid hide"> 
         <h4 style="margin:8px 0px 8px 16px">Scan Profiles</h4>
         <ul class="mdl-list mdl-color--white mdl-cell mdl-cell--12-col mdl-shadow--2dp"></ul>
       </div>
-
-      <!-- System Triggers Panel-->
+      <!-- triggers panel -->
       <div id="triggers_panel" class="mdl-grid hide">
         <h4 style="margin:8px 0px 8px 16px">Triggers</h4>
         <ul class="mdl-list mdl-color--white mdl-cell mdl-cell--12-col mdl-shadow--2dp"></ul>
       </div>
-
-      <!-- Login Dialog -->
+      <!-- login dialog -->
       <div id="login_dialog" class="mdl-grid hide" style="align-items: center; justify-content: center; margin-top: 50px">
         <div class="mdl-card mdl-shadow--6dp">
           <div class="mdl-card__title">
@@ -119,9 +109,8 @@
             </div>      
           </div>
         </div>
-      </div> 
-
-      <!-- Register -->
+      </div>
+      <!-- register dialog -->
       <div id="register_dialog" class="mdl-cell mdl-cell--12-col mdl-grid hide" style="align-items: center; justify-content: center">
         <div class="mdl-card mdl-shadow--6dp">
           <div class="mdl-card__title">
@@ -153,13 +142,12 @@
             </button>
           </div>
         </div>
-      </div>  
-
-      <!-- Bookmark form -->
-      <div id="strategy_bookmark_dialog" class="mdl-cell mdl-cell--12-col mdl-grid hide" style="align-items: center; justify-content: center">
+      </div>
+      <!-- new bookmark dialog -->
+      <div id="new_bookmark_dialog" class="mdl-cell mdl-cell--12-col mdl-grid hide" style="align-items: center; justify-content: center">
         <div class="mdl-card mdl-shadow--6dp">
           <div class="mdl-card__title">
-            <h2 class="mdl-card__title-text">Nueva Estrategia</h2>
+            <h2 class="mdl-card__title-text">Nuevo Marcador</h2>
           </div>
           <div class="mdl-card__supporting-text mdl-grid">
             <form action="#">
@@ -202,14 +190,16 @@
               </div>
           </div>
         </div>
-      </div>  
-
+      </div>
+      <!-- spinner -->
+      <div id="spinner" class="mdl-cell mdl-cell--12-col mdl-grid" style="align-items: center; justify-content: center">
+          <div class="mdl-spinner mdl-js-spinner is-active"></div>
+      </div>
       <!-- Snackbar -->
       <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
           <div class="mdl-snackbar__text"></div>
           <button type="button" class="mdl-snackbar__action"></button>
       </div>
-
       <!-- Templates -->
       <div id="ranking_card_template" class="mdl-card mdl-cell mdl-shadow--4dp hide">
         <div class="mdl-card__title" style="padding-bottom:3px">
@@ -225,20 +215,12 @@
         </div>
       </div>
 
-
       <li id="exchanges_listitem" class="mdl-list__item mdl-list__item--two-line hide">
       <span class="mdl-list__item-primary-content">
-        <i class="material-icons  mdl-list__item-avatar" style="background-color: transparent; color: rgb(84, 85, 90)">account_balance_wallet</i>
-        <span class="name">00</span>
+        <span class="name">...</span>
         <span class="mdl-list__item-text-body"></span>
       </span>
-      <span class="mdl-list__item-secondary-action">
-        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="list-switch-1">
-          <input type="checkbox" id="list-switch-1" class="mdl-switch__input" checked />
-        </label>
-      </span>
       </li>
-
 
       <li id="scan_profiles_listitem" class="mdl-list__item mdl-list__item--three-line hide">
         <span class="mdl-list__item-primary-content">
@@ -258,7 +240,6 @@
         </span>
       </li>
 
-
       <li id="trigger_listitem" class="mdl-list__item mdl-list__item--three-line hide">
         <span class="mdl-list__item-primary-content">
           <span class="trigger_name">...</span>- 
@@ -272,12 +253,11 @@
           </span>
         </span>
       </li>
-      </div>
-    </main>
+    </div>
+  </main>
+</div>
 
-  </div>
-
-  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-  <script defer src="app.js"></script>  
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script defer src="app.js"></script>  
 </body>
 </html>
