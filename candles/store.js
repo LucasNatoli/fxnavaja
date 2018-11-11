@@ -96,8 +96,14 @@ function writeCandlesToTable(tableName, candles) {
           model
           .bulkCreate(candles)
           .then(
-            affectedRows =>{},
-            err=> {console.log(err)}
+            affectedRows =>{
+              db.close
+              .then(
+                ok => {},
+                err => {console.log("error closing connections:", err)}
+              )
+            },
+            err=> {console.log('error bulkInserting', err)}
           )
         }, 
         (err) => {console.log('error destroying:', err)}
