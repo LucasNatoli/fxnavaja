@@ -58,8 +58,7 @@ function syncModel(tableName) {
 function readCandles(tableName, options) {
   return new Promise(
     (resolve, reject) => {
-      syncModel(tableName)
-      .then(
+      syncModel(tableName).then(
         model => {
           model.findAll(options)
           .then(
@@ -67,7 +66,7 @@ function readCandles(tableName, options) {
               resolve(
                 rows.map(r => {
                   //si no usara parseFloat las propiedades de la vela 
-                  //que devuelve serian Strings (?)                  
+                  //que devuelve serian Strings (?)
                   return {
                     O: parseFloat(r.O), H: parseFloat(r.H), L: parseFloat(r.L), 
                     C: parseFloat(r.C), V: parseFloat(r.V), T: parseFloat(r.T)
@@ -76,7 +75,7 @@ function readCandles(tableName, options) {
               )
             },
             err => {reject(err)}
-          )        
+          )
         },
         err=>{reject(err)}
       )      
