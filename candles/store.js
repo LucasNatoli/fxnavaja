@@ -87,19 +87,30 @@ function writeCandlesToTable(tableName, candles) {
   syncModel(tableName)
   .then(
     (model) => {
-      model.destroy({where: {T: {[Op.between]: [candles[0].T, candles[candles.length-1].T]}}})           
-      .then(
-        (rowCount) => {
-          candles.map(
-            (candle) => {
-              model
-                .build({O: candle.O, H: candle.H, L: candle.L, C:candle.C, V: candle.V, T: candle.T})
-                .save()
-                .catch(err => {console.log('error saving:', err)})
-            }
+      model
+      .destroy({where: {T: {[Op.between]: [candles[0].T, candles[candles.length-1].T]}}})           
+      .then( 
+        ()=>{
+          model
+          .bulkCreate(candles)
+          .then(
+            affectedRows =>{},
+            err=> {console.log(err)}
           )
         }, 
         (err) => {console.log('error destroying:', err)}
+
+        // (rowCount) => {
+        //   candles.map(
+        //     (candle) => {
+        //       model
+        //         .build({O: candle.O, H: candle.H, L: candle.L, C:candle.C, V: candle.V, T: candle.T})
+        //         .save()
+        //         .catch(err => {console.log('error saving:', err)})
+        //     }
+        //   )
+        // }, 
+        // (err) => {console.log('error destroying:', err)}
       )
     }
   )
