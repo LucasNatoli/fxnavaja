@@ -97,7 +97,7 @@ function writeCandlesToTable(tableName, candles) {
           .bulkCreate(candles)
           .then(
             affectedRows =>{},
-            err=> {console.log('error bulkInserting', err)}
+            err=> {console.log(err)}
           )
         }, 
         (err) => {console.log('error destroying:', err)}
