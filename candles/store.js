@@ -40,10 +40,11 @@ const MYSQL_CONNECTION =
     logging: false
 }
 
+const db = new Sequelize(env.DB_NAME, env.DB_USER, env.DB_PASSWORD, MYSQL_CONNECTION)
+      
 function syncModel(tableName) {  
   return new Promise(
     (resolve, reject) => {
-      var db = new Sequelize(env.DB_NAME, env.DB_USER, env.DB_PASSWORD, MYSQL_CONNECTION)
       var model = db.define(tableName, candleModel, {paranoid: false})  
       db.sync({force: false})
       .then(
@@ -54,16 +55,6 @@ function syncModel(tableName) {
   )
 }
 
-function parseRows(rows) {
-  //si no usara parseFloat las propiedades de la vela que devuelve son Strings (?)
-  return rows.map(r => {
-    return {
-      O: parseFloat(r.O), H: parseFloat(r.H), L: parseFloat(r.L), 
-      C: parseFloat(r.C), V: parseFloat(r.V), T: parseFloat(r.T)
-    }
-  })
-}
-
 function readCandles(tableName, options) {
   return new Promise(
     (resolve, reject) => {
@@ -72,7 +63,18 @@ function readCandles(tableName, options) {
         model => {
           model.findAll(options)
           .then(
-            rows => {resolve(parseRows(rows))},
+            rows => {
+              resolve(
+                rows.map(r => {
+                  //si no usara parseFloat las propiedades de la vela 
+                  //que devuelve serian Strings (?)                  
+                  return {
+                    O: parseFloat(r.O), H: parseFloat(r.H), L: parseFloat(r.L), 
+                    C: parseFloat(r.C), V: parseFloat(r.V), T: parseFloat(r.T)
+                  }
+                })
+              )
+            },
             err => {reject(err)}
           )        
         },
@@ -86,7 +88,7 @@ function writeCandlesToTable(tableName, candles) {
 
   syncModel(tableName)
   .then(
-    (model) => {
+    model => {
       model
       .destroy({where: {T: {[Op.between]: [candles[0].T, candles[candles.length-1].T]}}})           
       .then( 
@@ -100,7 +102,11 @@ function writeCandlesToTable(tableName, candles) {
         }, 
         (err) => {console.log('error destroying:', err)}
       )
+    },
+    err => {
+      console.log('error syncing model')
     }
+
   )
 }
 
