@@ -97,11 +97,7 @@ function writeCandlesToTable(tableName, candles) {
           .bulkCreate(candles)
           .then(
             affectedRows =>{
-              db.close
-              .then(
-                ok => {},
-                err => {console.log("error closing connections:", err)}
-              )
+              db.close()
             },
             err=> {console.log('error bulkInserting', err)}
           )
