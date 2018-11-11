@@ -99,18 +99,6 @@ function writeCandlesToTable(tableName, candles) {
           )
         }, 
         (err) => {console.log('error destroying:', err)}
-
-        // (rowCount) => {
-        //   candles.map(
-        //     (candle) => {
-        //       model
-        //         .build({O: candle.O, H: candle.H, L: candle.L, C:candle.C, V: candle.V, T: candle.T})
-        //         .save()
-        //         .catch(err => {console.log('error saving:', err)})
-        //     }
-        //   )
-        // }, 
-        // (err) => {console.log('error destroying:', err)}
       )
     }
   )
