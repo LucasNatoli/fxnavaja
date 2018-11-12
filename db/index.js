@@ -26,12 +26,16 @@ db.coinmarketcapTick = require('./coinmarketcap_tick')(sequelize, Sequelize)
 db.scanProfile = require('./scan-profile')(sequelize, Sequelize)
 db.trigger = require('./trigger')(sequelize, Sequelize)
 db.bookmark = require('./bookmark')(sequelize, Sequelize)
-
+db.bookmarkNotification = require('./bookmark-notification')(sequelize, Sequelize)
 
 //account scan bookmarks
 db.account.hasMany(db.bookmark)
 db.bookmark.belongsTo(db.account)
 db.bookmark.belongsTo(db.scanProfile)
 db.bookmark.belongsTo(db.trigger)
+
+//bbokmark notifications
+db.bookmark.hasMany(db.bookmarkNotification)
+db.bookmarkNotification.belongsTo(db.bookmark)
 
 module.exports = db;
