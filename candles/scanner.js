@@ -5,13 +5,26 @@ const CandlesStore = require('./store')
 function Scanner (profile) {
 	this.profile = profile
 	this.scan = function (count) {
-		var p = this.profile
-    exchanges
-    .getWarper(p.exchange)
-    .getCandles(p.coin, p.asset, p.interval, count)
-    .then(
-      candles=>{new CandlesStore(p).save(candles)},
-      err=>{console.log('error getting candles:', err)}
+    return new Promise(
+      (resolve, reject) => {
+        var p = this.profile
+        exchanges
+        .getWarper(p.exchange)
+        .getCandles(p.coin, p.asset, p.interval, count)
+        .then(
+          candles=>{
+            new CandlesStore(p)
+            .save(candles)
+            .then(
+              rowsAffected => {
+                resolve(rowsAffected)
+              },
+              err=> {reject(err)}
+            )
+          },
+          err=> {reject(err)}
+        )
+      }
     )
 	}
 }
