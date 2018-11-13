@@ -17,7 +17,7 @@ function Scanner (profile) {
             .save(candles)
             .then(
               rowsAffected => {
-                resolve(rowsAffected)
+                resolve(candles)
               },
               err=> {reject(err)}
             )
