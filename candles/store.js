@@ -85,27 +85,28 @@ function readCandles(tableName, options) {
 
 function writeCandlesToTable(tableName, candles) {
 
-  syncModel(tableName)
-  .then(
-    model => {
-      model
-      .destroy({where: {T: {[Op.between]: [candles[0].T, candles[candles.length-1].T]}}})           
-      .then( 
-        ()=>{
+  return new Promise(
+    (resolve, reject) => {
+      syncModel(tableName)
+      .then(
+        model => {
           model
-          .bulkCreate(candles)
-          .then(
-            affectedRows =>{},
-            err=> {console.log(err)}
+          .destroy({where: {T: {[Op.between]: [candles[0].T, candles[candles.length-1].T]}}})           
+          .then( 
+            ()=>{
+              model
+              .bulkCreate(candles)
+              .then(
+                affectedRows =>{resolve(affectedRows)},
+                err=> {reject(err)}
+              )
+            }, 
+            (err) => {reject(err)}
           )
-        }, 
-        (err) => {console.log('error destroying:', err)}
+        },
+        err => {reject(err)}
       )
-    },
-    err => {
-      console.log('error syncing model')
     }
-
   )
 }
 
@@ -113,7 +114,7 @@ function Store(profile){
 
   this.profile = profile
   this.tableName = profile.exchange + '_' + profile.coin + '_' + profile.asset + '_' + profile.interval
-  this.save = (candles) => {writeCandlesToTable(this.tableName, candles)}
+  this.save = (candles) => {return writeCandlesToTable(this.tableName, candles)}
   this.readAll = () => {return readCandles(this.tableName)}
   this.readFirst = limit => {return readCandles(this.tableName, {limit: limit})}
   this.readLast = (limit) => {
