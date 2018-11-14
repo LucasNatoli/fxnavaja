@@ -1,12 +1,13 @@
 'use stirct'
 const db = require('../db')
 const nodemailer = require('nodemailer')
+const env = process.env
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'lgn.tabot.01@gmail.com',
-    pass: 'Kalama2018'
+    user: env.MAIL_FROM,
+    pass: env.MAIL_PASSWORD
   }
 })
 
@@ -21,7 +22,7 @@ db.bookmarkNotification
       n => {
         
         var mailOptions = {
-          from: 'lgn.tabot.01@gmail.com',
+          from: env.MAIL_FROM,
           to: n.bookmark.account.userid,
           subject: 'Señal activada: ' + n.bookmark.scanProfile.exchange 
             + ': ' + n.bookmark.scanProfile.coin 
