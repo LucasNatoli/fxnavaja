@@ -12,9 +12,16 @@ const checkBookmark = bookmark => {
   .readAll()
   .then(
     candles => {
+			var model = {active:true, bookmark_id: bookmark.id}
       if (new Analyzer(candles, bookmark.trigger).check()===true) {
 				console.log('creating notification', bookmark.scanProfile.coin, bookmark.scanProfile.asset, bookmark.scanProfile.interval)
-        db.bookmarkNotification.create({active:true, bookmark_id: bookmark.id })
+				db.bookmarkNotification
+				.findOrCreate(
+					{ 
+						where: model,
+						defaults: model
+					}
+				)
       }
     },
     err=> {console.log('error', err)}
