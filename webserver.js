@@ -24,11 +24,3 @@ app.use(session(
 router(app, db)
 
 app.listen(PORT, () => console.log('r4Z0R listening on port ', PORT))
-
-/* 
-db.sequelize.sync(
-  {force: false}
-).then(() => {
-  console.log("db syn ok")
-  app.listen(PORT, () => console.log('r4Z0R listening on port ', PORT))
-}) */
