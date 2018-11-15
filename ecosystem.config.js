@@ -9,7 +9,7 @@ module.exports = {
       name      : 'web-server',
       script    : 'webserver.js',      
       watch     : true,
-      ignore_watch : ["node_modules", "docs", "sqlite3", ".git"],      
+      ignore_watch : ["node_modules", "docs", "sqlite3", ".git", "web", "backtest_dev"],      
       env: {
         NODE_ENV: 'development',
         PORT: 3000
@@ -23,7 +23,21 @@ module.exports = {
       name      : 'watcher',
       script    : 'watcher.js',
       watch     : true,
-      ignore_watch : ["node_modules", "docs", "sqlite3", ".git"],      
+      ignore_watch : ["node_modules", "docs", "sqlite3", ".git", "web", "backtest_dev"],      
+      env: {
+        NODE_ENV: 'development',
+        PORT: 3000
+      },
+      env_production : {
+        NODE_ENV: 'production',
+        PORT: 3000
+      }
+    },
+    {
+      name      : 'mailer',
+      script    : 'mailer.js',
+      watch     : true,
+      ignore_watch : ["node_modules", "docs", "sqlite3", ".git", "web", "backtest_dev"],      
       env: {
         NODE_ENV: 'development',
         PORT: 3000
