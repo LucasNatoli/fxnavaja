@@ -1,6 +1,7 @@
 # Secrets
 secret.txt
 doodles.sql
+backtest_dev/
 #ecosystem.config.js
 
 # Sqlite3 Sessions db
