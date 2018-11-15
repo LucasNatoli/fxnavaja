@@ -95,6 +95,7 @@ module.exports = (app, db) => {
                 var sess = req.session
                 sess.userid = userid
                 sess.name = account.name
+                sess.account_id = account.id
                 sess.save
                 var userInfo = {
                   userid : userid,
