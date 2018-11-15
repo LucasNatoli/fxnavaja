@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mockup</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-purple.min.css">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" type="text/css">
+<!--   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.css" type="text/css" />
+ -->
+  <style>
+  .hide {
+    display: none
+  }
+  </style>
+</head>
+<body>
+  <div class = "mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+
+    <!-- Drawer -->
+    <div class = "mdl-layout__drawer">
+      <span class = "mdl-layout-title">Material Design</span>
+      <nav class = "mdl-navigation">
+        <a class = "mdl-navigation__link" href = "">Home</a>
+        <a class = "mdl-navigation__link" href = "">Features</a>
+        <a class = "mdl-navigation__link" href = "">About Us</a>
+        <a class = "mdl-navigation__link" href = "">Log Out</a>
+      </nav>
+    </div>
+
+    <!-- Header -->
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <span class="mdl-layout-title" id="header_text">Razor</span>
+        <div class="mdl-layout-spacer"></div>
+        <nav class="mdl-navigation">
+          <button id="refresh_button" class="mdl-button mdl-js-button mdl-button--icon ">
+            <i class="material-icons">refresh</i>
+            </button>
+            <button id="new_bookmark_button" class="mdl-button mdl-js-button mdl-button--icon ">
+            <i class="material-icons">add</i>
+            </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class = "mdl-layout__content">
+
+      <ul class="hide mdl-list" id="notifications_list">
+        <li class="mdl-list__item mdl-list__item--two-line">
+
+          <span class="mdl-list__item-primary-content">
+            <span>BTCXRP, binance</span>
+            <span class="mdl-list__item-sub-title">4h interval - signal: BUY</span>
+          </span>
+      
+          <span class="mdl-list__item-secondary-action">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+              <input 
+              type="checkbox" 
+              id="list-checkbox-1" 
+              class="mdl-checkbox__input" 
+              onchange="sayhi(event)"/>
+            </label>
+          </span>
+        </li>
+      </ul>
+
+      <button
+        id="test_button" 
+        class = "hide mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+        onclick="presentElement(app.targetButton)">
+          <i class = "material-icons">add</i>
+      </button>
+
+      <button
+        id="target_button" 
+        class = "hide mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+        onclick="presentElement(app.testButton)">
+          <i class = "material-icons">refresh</i>
+      </button>
+    </main>
+  </div>
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script>
+
+function sayhi(e) {
+  console.log(e.target.id)
+  console.log(e.target.checked)
+}
+
+function showElement(element){
+  element.classList.remove("hide")
+}
+
+function hideElement(element){
+  element.classList.add("hide")
+}
+
+const app = {
+  headerText : document.getElementById('header_text'),
+  testButton: document.getElementById('test_button'),
+  targetButton: document.getElementById('target_button'),
+  notificationsList: document.getElementById('notifications_list'),
+  currentComponent: null
+}
+
+function show(element) {
+  element.remove
+}
+
+function presentElement (element){
+  if (app.currentComponent) {hideElement(app.currentComponent)}
+  showElement(element)
+  app.currentComponent= element
+}
+
+document.addEventListener("DOMContentLoaded", 
+  e => { 
+    presentElement(app.notificationsList)
+  }
+)
+</script>
+</body>
+</html>
