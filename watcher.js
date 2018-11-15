@@ -71,7 +71,7 @@ const allSteps = () => {
 }
 
 new CronJob(
-	'*/60 * * * * *', 
+	'10 */1 * * * *', 
 	() => {allSteps()}, 
 	null, 
 	true, 
