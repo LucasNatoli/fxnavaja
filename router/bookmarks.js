@@ -68,7 +68,7 @@ module.exports = (app, db) => {
 
               if (created) {
                 //TODO: Check this default. shoul be in model definition?
-                profile.limit = 10
+                profile.limit = 20
                 profile.save()
               }
             }
