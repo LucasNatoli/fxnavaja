@@ -4,7 +4,9 @@ const nodemailer = require('nodemailer')
 const env = process.env
 
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: env.MAIL_HOST,
+  port: env.MAIL_PORT,
+  secure: true, 
   auth: {
     user: env.MAIL_FROM,
     pass: env.MAIL_PASSWORD
@@ -13,7 +15,7 @@ var transporter = nodemailer.createTransport({
 
 var newMail = {
   from: env.MAIL_FROM,
-  to: n.bookmark.account.userid,
+  to: 'lucas.natoli@gmail.com',
   subject: 'Test',
   text: 'Testing'
 }
